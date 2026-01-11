@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head><title>Placeholder Generator</title></head>
+<body>
+<canvas id="canvas1" width="1920" height="400"></canvas>
+<canvas id="canvas2" width="600" height="600"></canvas>
+<canvas id="canvas3" width="600" height="600"></canvas>
+<canvas id="canvas4" width="600" height="600"></canvas>
+<script>
+const configs = [
+  {id: 'canvas1', text: 'Mazmi Dubai\nCreek Breakfast', gradient: ['#667eea', '#764ba2']},
+  {id: 'canvas2', text: 'Creek View\n(Placeholder)', gradient: ['#4facfe', '#00f2fe']},
+  {id: 'canvas3', text: 'Breakfast Food\n(Placeholder)', gradient: ['#fa709a', '#fee140']},
+  {id: 'canvas4', text: 'Ambiance\n(Placeholder)', gradient: ['#30cfd0', '#330867']}
+];
+configs.forEach((config, index) => {
+  const canvas = document.getElementById(config.id);
+  const ctx = canvas.getContext('2d');
+  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  gradient.addColorStop(0, config.gradient[0]);
+  gradient.addColorStop(1, config.gradient[1]);
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 60px Arial';
+  ctx.textAlign = 'center';
+  ctx.shadowColor = 'rgba(0,0,0,0.5)';
+  ctx.shadowBlur = 10;
+  const lines = config.text.split('\n');
+  lines.forEach((line, i) => {
+    ctx.fillText(line, canvas.width/2, canvas.height/2 + (i - lines.length/2 + 0.5) * 70);
+  });
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = ['breakfast-main.jpg', 'breakfast-view.jpg', 'breakfast-food.jpg', 'breakfast-ambiance.jpg'][index];
+    a.click();
+  }, 'image/jpeg', 0.9);
+});
+</script>
+</body>
+</html>
