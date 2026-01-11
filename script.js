@@ -13,6 +13,7 @@ class PageManager {
             video: document.getElementById('video-page'),
             events: document.getElementById('events-page'),
             giftHunt: document.getElementById('gift-hunt-page'),
+            breakfast: document.getElementById('breakfast-page'),
             finale: document.getElementById('finale-page')
         };
         this.currentPage = 'password';
@@ -398,5 +399,26 @@ function createFloatingHearts() {
     }, 500);
 }
 
+// Breakfast Page Handlers
+function initBreakfastHandlers() {
+    const startBreakfastBtn = document.getElementById('start-breakfast-btn');
+    const backToEventsFromBreakfast = document.getElementById('back-to-events-from-breakfast');
+    
+    if (startBreakfastBtn) {
+        startBreakfastBtn.addEventListener('click', () => {
+            pageManager.showPage('breakfast');
+        });
+    }
+    
+    if (backToEventsFromBreakfast) {
+        backToEventsFromBreakfast.addEventListener('click', () => {
+            pageManager.showPage('events');
+        });
+    }
+}
+
 // Start floating hearts
 createFloatingHearts();
+
+// Initialize breakfast handlers
+initBreakfastHandlers();
