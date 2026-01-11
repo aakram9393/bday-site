@@ -2,7 +2,7 @@
 const CONFIG = {
     password: '282025', // Change this to your desired password
     birthdayDate: new Date('2026-01-25').toDateString(), // January 25, 2026
-    testMode: false, // Set to true to unlock all events immediately for testing
+    testMode: true, // Set to true to unlock all events immediately for testing
 };
 
 // Page Management
