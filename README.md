@@ -6,25 +6,37 @@ A romantic, interactive birthday website with password protection, videos, treas
 
 1. **Password Protected Entry** - Unlock with a secret word
 2. **Birthday Video** - Plays automatically with background music
-3. **Gift Treasure Hunt** - Interactive hints for finding hidden gifts around the house
-4. **Timed Events Timeline** - Events unlock automatically at their scheduled times
-5. **Final Thank You Video** - A heartfelt message from you
-6. **Floating Hearts Animation** - Romantic atmosphere throughout
-7. **Responsive Design** - Works on all devices
+3. **Gift Treasure Hunt** - Interactive hints for finding 4 hidden gifts around the house
+4. **Timed Events Timeline** - 6 events unlock automatically at their scheduled times (January 25, 2026)
+5. **Breakfast Experience** - Special Mazmi Dubai creek breakfast page with images and details
+6. **Final Thank You Video** - A heartfelt message from you
+7. **Floating Hearts Animation** - Romantic atmosphere throughout
+8. **Session Persistence** - Progress is saved and restored within 24 hours
+9. **Responsive Design** - Works beautifully on all devices
 
 ## 📁 Project Structure
 
 ```
 bday-site/
-├── index.html          # Main HTML file
-├── styles.css          # Styling and animations
-├── script.js           # Interactive functionality
+├── index.html          # Main HTML file with all pages
+├── styles.css          # Enhanced styling with animations
+├── script.js           # Interactive functionality and page management
 ├── README.md           # This file
+├── IMAGE_GUIDE.md      # Guide for breakfast experience images
 ├── videos/
 │   ├── birthday-video.mp4    # Birthday celebration video
 │   └── finale-video.mp4      # Final thank you video
-└── audio/
-    └── romantic-song.mp3     # Background music
+├── audio/
+│   └── romantic-song.mp3     # Background music
+└── images/
+    ├── gift1.jpg             # Gift 1 location (beneath couch)
+    ├── gift2.jpg             # Gift 2 location (next to couch)
+    ├── gift3.jpeg            # Gift 3 location (behind left curtain)
+    ├── gift4.jpeg            # Gift 4 location (behind right curtain)
+    ├── breakfast-main.jpg    # Breakfast hero image (NEEDED)
+    ├── breakfast-view.jpg    # Creek view image (NEEDED)
+    ├── breakfast-food.jpg    # Food spread image (NEEDED)
+    └── breakfast-ambiance.jpg # Restaurant ambiance (NEEDED)
 ```
 
 ## 🚀 Setup Instructions
@@ -65,11 +77,34 @@ Or keep it as `new Date().toDateString()` for testing today.
 
 Edit the gift locations in `index.html` (lines 61-106) to match your actual hiding spots.
 
+### 4. Add Required Images
+
+You need to add 4 breakfast experience images to the `images/` folder. See `IMAGE_GUIDE.md` for detailed specifications:
+
+- `breakfast-main.jpg` - Hero image of Dubai Creek waterfront dining
+- `breakfast-view.jpg` - Creek view or restaurant exterior
+- `breakfast-food.jpg` - Gourmet breakfast spread
+- `breakfast-ambiance.jpg` - Restaurant atmosphere/ambiance
+
+**Tips for finding images:**
+- Search "Dubai Creek restaurant" on Unsplash or Pexels
+- Look for "waterfront breakfast Dubai" images
+- Ensure proper licensing for web use
+- Resize large images to under 5MB each
+
+Gift location images are already included:
+- `gift1.jpg` - Beneath the couch
+- `gift2.jpg` - Next to the couch  
+- `gift3.jpeg` - Behind left curtain
+- `gift4.jpeg` - Behind right curtain
+
 ### 5. Customize Events
 
 Edit the event times and descriptions in `index.html` (lines 127-206) to match your planned schedule.
 
 ### 6. Test the Website
+
+**IMPORTANT:** Test mode is currently ENABLED. All events will unlock immediately for testing.
 
 #### Option A: Using Python's built-in server (recommended)
 ```bash
@@ -85,18 +120,21 @@ Then open: http://localhost:8000
 #### Option C: Direct file opening
 Simply double-click `index.html` to open in your browser (some features may be limited)
 
-### 7. Enable Test Mode (Optional)
+### 7. Disable Test Mode Before Launch
 
-To test event unlocking without waiting:
+**CRITICAL:** Before January 25, 2026, you MUST disable test mode:
 
 1. Open `script.js`
-2. Find line 273 (near the end)
-3. Uncomment this line:
+2. Find line 5:
 ```javascript
-TestMode.enableTestMode();
+testMode: true, // Set to true to unlock all events immediately for testing
+```
+3. Change to:
+```javascript
+testMode: false, // Set to true to unlock all events immediately for testing
 ```
 
-This will unlock all events immediately when you reach the events page.
+This will ensure events unlock at their proper times on your wife's birthday!
 
 ## 🎨 Customization Tips
 
@@ -115,9 +153,20 @@ Copy one of the `.event-box` divs in `index.html` and set the `data-time` attrib
 ### Change Animations
 Modify the `@keyframes` sections at the bottom of `styles.css`.
 
+## 🎯 Birthday Event Schedule (January 25, 2026)
+
+| Time | Event | Description |
+|------|-------|-------------|
+| 10:00 AM | Treasure Hunt | Find 4 hidden gifts around the house |
+| 11:00 AM | Breakfast at Creek | Mazmi Dubai waterfront dining experience |
+| 1:00 PM | Birthday Party | Celebration with loved ones |
+| 4:00 PM | Adventure Time | Special outdoor activity |
+| 6:30 PM | Dinner | Romantic dinner for two |
+| 10:00 PM | Movie Night | Cozy evening with favorite films |
+
 ## 🎯 Event Time Format
 
-Events use 24-hour format: `HH:MM`
+Events use 24-hour format in the code: `HH:MM`
 - 9:00 AM = `09:00`
 - 12:00 PM = `12:00`
 - 3:00 PM = `15:00`
