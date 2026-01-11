@@ -2,6 +2,7 @@
 const CONFIG = {
     password: 'iloveyou', // Change this to your desired password
     birthdayDate: new Date('2026-01-25').toDateString(), // January 25, 2026
+    testMode: true, // Set to true to unlock all events immediately for testing
 };
 
 // Page Management
@@ -186,6 +187,16 @@ class EventsManager {
         const now = new Date();
         const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         const currentDate = now.toDateString();
+
+        // If test mode is enabled, unlock all events
+        if (CONFIG.testMode) {
+            this.eventBoxes.forEach(box => {
+                if (box.classList.contains('locked')) {
+                    this.unlockEvent(box);
+                }
+            });
+            return;
+        }
 
         // Only unlock events if it's the birthday date
         if (currentDate !== CONFIG.birthdayDate) {
