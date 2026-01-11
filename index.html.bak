@@ -104,7 +104,43 @@
                     <h3>Final Surprise</h3>
                     <div class="hint">
                         <p class="hint-text">💡 In the bathroom storage area</p>
+                        <div class="arrow">👉</div>
+                    </div>
+                    <button class="next-gift-btn">Found It! Next Gift →</button>
+                </div>
+
+                <!-- Gift 5 -->
+                <div class="single-gift-card" data-gift="5">
+                    <div class="gift-number">Gift 5 of 6</div>
+                    <div class="gift-image-container">
+                        <img src="images/gift5.jpg" alt="Gift Location 5" class="gift-image">
+                        <div class="image-placeholder">
+                            <p>📸 Add image: images/gift5.jpg</p>
+                        </div>
+                    </div>
+                    <div class="gift-icon">🎁</div>
+                    <h3>Fifth Charm</h3>
+                    <div class="hint">
+                        <p class="hint-text">💡 On the shelf</p>
                         <div class="arrow">�</div>
+                    </div>
+                    <button class="next-gift-btn">Found It! Next Gift →</button>
+                </div>
+
+                <!-- Gift 6 -->
+                <div class="single-gift-card" data-gift="6">
+                    <div class="gift-number">Gift 6 of 6</div>
+                    <div class="gift-image-container">
+                        <img src="images/gift6.jpg" alt="Gift Location 6" class="gift-image">
+                        <div class="image-placeholder">
+                            <p>📸 Add image: images/gift6.jpg</p>
+                        </div>
+                    </div>
+                    <div class="gift-icon">🎁</div>
+                    <h3>Final Surprise</h3>
+                    <div class="hint">
+                        <p class="hint-text">💡 In the bathroom storage area</p>
+                        <div class="arrow">🚪</div>
                     </div>
                     <button class="next-gift-btn">Found It! Continue to Events →</button>
                 </div>

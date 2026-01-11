@@ -105,7 +105,7 @@ class GiftHuntHandler {
     constructor(pageManager) {
         this.pageManager = pageManager;
         this.currentGift = 1;
-        this.totalGifts = 6;
+        this.totalGifts = 4;
         this.giftCards = document.querySelectorAll('.single-gift-card');
         this.nextButtons = document.querySelectorAll('.next-gift-btn');
         
