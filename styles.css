@@ -81,7 +81,28 @@ body {
 .subtitle {
     font-size: 1.2em;
     color: #666;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+}
+
+.password-hint {
+    font-size: 1em;
+    color: #667eea;
+    font-style: italic;
+    margin-bottom: 25px;
+    padding: 10px 20px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #667eea;
+    animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 #password-input {
