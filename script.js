@@ -238,7 +238,6 @@ class GiftHuntHandler {
 class EventsManager {
     constructor(pageManager) {
         this.pageManager = pageManager;
-        this.button = document.getElementById('continue-to-finale');
         this.eventBoxes = document.querySelectorAll('.event-box');
         this.checkInterval = null;
         this.treasureHuntUnlocked = false;
@@ -247,16 +246,6 @@ class EventsManager {
     }
 
     init() {
-        this.button.addEventListener('click', () => {
-            if (this.canAccessFinale()) {
-                this.pageManager.showPage('finale');
-                this.stopChecking();
-                this.initFinalePage();
-            } else {
-                this.showFinaleBlockedMessage();
-            }
-        });
-
         // Add click handler for treasure hunt button
         setTimeout(() => {
             const huntButton = document.querySelector('.start-hunt-btn');
@@ -267,20 +256,8 @@ class EventsManager {
             }
         }, 500);
 
-        // Update finale button appearance based on availability
-        this.updateFinaleButton();
-    }
-
-    updateFinaleButton() {
-        if (!this.canAccessFinale() && !CONFIG.testMode) {
-            this.button.style.opacity = '0.5';
-            this.button.style.cursor = 'not-allowed';
-            this.button.title = 'Available after 10 PM or when all events are unlocked';
-        } else {
-            this.button.style.opacity = '1';
-            this.button.style.cursor = 'pointer';
-            this.button.title = 'Click to view the final message';
-        }
+        // Start checking events
+        this.startChecking();
     }
 
     startChecking() {
@@ -326,9 +303,6 @@ class EventsManager {
                 this.unlockEvent(box);
             }
         });
-
-        // Update finale button availability
-        this.updateFinaleButton();
     }
 
     unlockEvent(box) {
@@ -378,58 +352,6 @@ class EventsManager {
                 confetti.remove();
             }, 1000);
         }
-    }
-
-    canAccessFinale() {
-        // In test mode, always allow access
-        if (CONFIG.testMode) {
-            return true;
-        }
-
-        const now = new Date();
-        const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-        const currentDate = now.toDateString();
-
-        // Check if it's after 10 PM (22:00) on the birthday date
-        if (currentDate === CONFIG.birthdayDate && currentTime >= '22:00') {
-            return true;
-        }
-
-        // Check if all events are unlocked
-        const allUnlocked = Array.from(this.eventBoxes).every(box => !box.classList.contains('locked'));
-        return allUnlocked;
-    }
-
-    showFinaleBlockedMessage() {
-        // Create a temporary message overlay
-        const message = document.createElement('div');
-        message.className = 'finale-blocked-message';
-        message.innerHTML = `
-            <div class="blocked-content">
-                <h3>✨ Not Yet! ✨</h3>
-                <p>The final message will be available after:</p>
-                <ul>
-                    <li>🕙 10:00 PM arrives, OR</li>
-                    <li>🎉 All events are unlocked</li>
-                </ul>
-                <p>Enjoy each moment of your special day! 💝</p>
-            </div>
-        `;
-        document.body.appendChild(message);
-
-        setTimeout(() => {
-            message.classList.add('show');
-        }, 10);
-
-        setTimeout(() => {
-            message.classList.remove('show');
-            setTimeout(() => message.remove(), 300);
-        }, 4000);
-    }
-
-    initFinalePage() {
-        const video = document.getElementById('finale-video');
-        video.play();
     }
 }
 
@@ -567,6 +489,27 @@ function initMovieHandlers() {
     }
 }
 
+// Finale Event Button Handler
+function initFinaleHandlers() {
+    const startFinaleBtn = document.getElementById('start-finale-btn');
+    
+    if (startFinaleBtn) {
+        startFinaleBtn.addEventListener('click', () => {
+            pageManager.showPage('finale');
+            eventsManager.stopChecking();
+            initFinalePage();
+        });
+    }
+}
+
+// Initialize finale page
+function initFinalePage() {
+    const video = document.getElementById('finale-video');
+    if (video) {
+        video.play();
+    }
+}
+
 // Start floating hearts
 createFloatingHearts();
 
@@ -575,6 +518,7 @@ initBreakfastHandlers();
 initAdventureHandlers();
 initDinnerHandlers();
 initMovieHandlers();
+initFinaleHandlers();
 
 // Global Reset Progress Handler
 function initGlobalReset() {
