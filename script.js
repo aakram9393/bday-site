@@ -104,28 +104,46 @@ class VideoPageHandler {
 class GiftHuntHandler {
     constructor(pageManager) {
         this.pageManager = pageManager;
-        this.button = document.getElementById('continue-to-events');
+        this.currentGift = 1;
+        this.totalGifts = 6;
+        this.giftCards = document.querySelectorAll('.single-gift-card');
+        this.nextButtons = document.querySelectorAll('.next-gift-btn');
         
         this.init();
     }
 
     init() {
-        this.button.addEventListener('click', () => {
-            this.pageManager.showPage('events');
-            eventsManager.startChecking();
-        });
-
-        // Add click animation to gift cards
-        const giftCards = document.querySelectorAll('.gift-card');
-        giftCards.forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.1}s`;
-            card.addEventListener('click', () => {
-                card.style.transform = 'scale(1.05)';
-                setTimeout(() => {
-                    card.style.transform = '';
-                }, 300);
+        this.nextButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                const giftNumber = index + 1;
+                
+                if (giftNumber < this.totalGifts) {
+                    // Show next gift
+                    this.showGift(giftNumber + 1);
+                } else {
+                    // Last gift, go to events page
+                    this.pageManager.showPage('events');
+                    eventsManager.startChecking();
+                }
             });
         });
+    }
+
+    showGift(giftNumber) {
+        // Hide all gifts
+        this.giftCards.forEach(card => {
+            card.classList.remove('active');
+        });
+
+        // Show the requested gift
+        const targetGift = document.querySelector(`[data-gift="${giftNumber}"]`);
+        if (targetGift) {
+            targetGift.classList.add('active');
+            this.currentGift = giftNumber;
+            
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     }
 }
 

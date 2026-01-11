@@ -35,65 +35,115 @@
         <div id="gift-hunt-page" class="page">
             <div class="hunt-container">
                 <h2 class="page-title">Treasure Hunt Time! 🎁</h2>
-                <p class="hunt-intro">I've hidden special gifts around the house for you. Follow the clues!</p>
+                <p class="hunt-intro" id="hunt-intro">I've hidden special gifts around the house for you. Follow the clues!</p>
                 
-                <div class="gifts-grid">
-                    <div class="gift-card">
-                        <div class="gift-icon">🎁</div>
-                        <h3>Gift #1</h3>
-                        <div class="hint">
-                            <p>💡 Look beneath the couch</p>
-                            <div class="arrow">👇</div>
+                <!-- Gift 1 -->
+                <div class="single-gift-card active" data-gift="1">
+                    <div class="gift-number">Gift 1 of 6</div>
+                    <div class="gift-image-container">
+                        <img src="images/gift1.jpg" alt="Gift Location 1" class="gift-image">
+                        <div class="image-placeholder">
+                            <p>📸 Add image: images/gift1.jpg</p>
                         </div>
                     </div>
-
-                    <div class="gift-card">
-                        <div class="gift-icon">🎁</div>
-                        <h3>Gift #2</h3>
-                        <div class="hint">
-                            <p>💡 Check above the cupboard</p>
-                            <div class="arrow">☝️</div>
-                        </div>
+                    <div class="gift-icon">🎁</div>
+                    <h3>First Surprise</h3>
+                    <div class="hint">
+                        <p class="hint-text">💡 Look beneath the couch</p>
+                        <div class="arrow">👇</div>
                     </div>
-
-                    <div class="gift-card">
-                        <div class="gift-icon">🎁</div>
-                        <h3>Gift #3</h3>
-                        <div class="hint">
-                            <p>💡 Behind the bedroom door</p>
-                            <div class="arrow">👈</div>
-                        </div>
-                    </div>
-
-                    <div class="gift-card">
-                        <div class="gift-icon">🎁</div>
-                        <h3>Gift #4</h3>
-                        <div class="hint">
-                            <p>💡 Inside the kitchen drawer</p>
-                            <div class="arrow">👉</div>
-                        </div>
-                    </div>
-
-                    <div class="gift-card">
-                        <div class="gift-icon">🎁</div>
-                        <h3>Gift #5</h3>
-                        <div class="hint">
-                            <p>💡 Under your pillow</p>
-                            <div class="arrow">🛏️</div>
-                        </div>
-                    </div>
-
-                    <div class="gift-card">
-                        <div class="gift-icon">🎁</div>
-                        <h3>Gift #6</h3>
-                        <div class="hint">
-                            <p>💡 In the bathroom cabinet</p>
-                            <div class="arrow">🚪</div>
-                        </div>
-                    </div>
+                    <button class="next-gift-btn">Found It! Next Gift →</button>
                 </div>
 
-                <button id="continue-to-events" class="nav-btn">Continue to Today's Events 📅</button>
+                <!-- Gift 2 -->
+                <div class="single-gift-card" data-gift="2">
+                    <div class="gift-number">Gift 2 of 6</div>
+                    <div class="gift-image-container">
+                        <img src="images/gift2.jpg" alt="Gift Location 2" class="gift-image">
+                        <div class="image-placeholder">
+                            <p>📸 Add image: images/gift2.jpg</p>
+                        </div>
+                    </div>
+                    <div class="gift-icon">🎁</div>
+                    <h3>Second Treasure</h3>
+                    <div class="hint">
+                        <p class="hint-text">💡 Check above the cupboard</p>
+                        <div class="arrow">☝️</div>
+                    </div>
+                    <button class="next-gift-btn">Found It! Next Gift →</button>
+                </div>
+
+                <!-- Gift 3 -->
+                <div class="single-gift-card" data-gift="3">
+                    <div class="gift-number">Gift 3 of 6</div>
+                    <div class="gift-image-container">
+                        <img src="images/gift3.jpg" alt="Gift Location 3" class="gift-image">
+                        <div class="image-placeholder">
+                            <p>📸 Add image: images/gift3.jpg</p>
+                        </div>
+                    </div>
+                    <div class="gift-icon">🎁</div>
+                    <h3>Third Wonder</h3>
+                    <div class="hint">
+                        <p class="hint-text">💡 Behind the bedroom door</p>
+                        <div class="arrow">👈</div>
+                    </div>
+                    <button class="next-gift-btn">Found It! Next Gift →</button>
+                </div>
+
+                <!-- Gift 4 -->
+                <div class="single-gift-card" data-gift="4">
+                    <div class="gift-number">Gift 4 of 6</div>
+                    <div class="gift-image-container">
+                        <img src="images/gift4.jpg" alt="Gift Location 4" class="gift-image">
+                        <div class="image-placeholder">
+                            <p>📸 Add image: images/gift4.jpg</p>
+                        </div>
+                    </div>
+                    <div class="gift-icon">🎁</div>
+                    <h3>Fourth Delight</h3>
+                    <div class="hint">
+                        <p class="hint-text">💡 Inside the kitchen drawer</p>
+                        <div class="arrow">👉</div>
+                    </div>
+                    <button class="next-gift-btn">Found It! Next Gift →</button>
+                </div>
+
+                <!-- Gift 5 -->
+                <div class="single-gift-card" data-gift="5">
+                    <div class="gift-number">Gift 5 of 6</div>
+                    <div class="gift-image-container">
+                        <img src="images/gift5.jpg" alt="Gift Location 5" class="gift-image">
+                        <div class="image-placeholder">
+                            <p>📸 Add image: images/gift5.jpg</p>
+                        </div>
+                    </div>
+                    <div class="gift-icon">🎁</div>
+                    <h3>Fifth Charm</h3>
+                    <div class="hint">
+                        <p class="hint-text">💡 Under your pillow</p>
+                        <div class="arrow">🛏️</div>
+                    </div>
+                    <button class="next-gift-btn">Found It! Next Gift →</button>
+                </div>
+
+                <!-- Gift 6 -->
+                <div class="single-gift-card" data-gift="6">
+                    <div class="gift-number">Gift 6 of 6</div>
+                    <div class="gift-image-container">
+                        <img src="images/gift6.jpg" alt="Gift Location 6" class="gift-image">
+                        <div class="image-placeholder">
+                            <p>� Add image: images/gift6.jpg</p>
+                        </div>
+                    </div>
+                    <div class="gift-icon">🎁</div>
+                    <h3>Final Surprise</h3>
+                    <div class="hint">
+                        <p class="hint-text">💡 In the bathroom cabinet</p>
+                        <div class="arrow">🚪</div>
+                    </div>
+                    <button class="next-gift-btn">Found It! Continue to Events →</button>
+                </div>
             </div>
         </div>
 

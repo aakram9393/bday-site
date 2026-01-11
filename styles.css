@@ -161,26 +161,74 @@ video {
     margin-bottom: 40px;
 }
 
-.gifts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-bottom: 40px;
-}
-
-.gift-card {
+.single-gift-card {
     background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    animation: bounceIn 0.6s ease;
+    max-width: 700px;
+    margin: 0 auto;
+    display: none;
+    animation: slideInUp 0.6s ease;
 }
 
-.gift-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+.single-gift-card.active {
+    display: block;
+}
+
+.gift-number {
+    font-size: 1em;
+    color: #667eea;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.gift-image-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #f8f9fa;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.gift-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.gift-image[src]:not([src=""]) {
+    display: block;
+}
+
+.image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(214, 51, 132, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%);
+    border: 3px dashed #d63384;
+}
+
+.gift-image[src]:not([src=""]) ~ .image-placeholder {
+    display: none;
+}
+
+.image-placeholder p {
+    font-size: 1.2em;
+    color: #d63384;
+    font-weight: bold;
 }
 
 .gift-icon {
@@ -189,28 +237,48 @@ video {
     animation: pulse 2s infinite;
 }
 
-.gift-card h3 {
+.single-gift-card h3 {
     color: #d63384;
-    font-size: 1.5em;
-    margin-bottom: 15px;
+    font-size: 2em;
+    margin-bottom: 20px;
 }
 
 .hint {
     background: rgba(214, 51, 132, 0.1);
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 15px;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
-.hint p {
-    font-size: 1.1em;
+.hint-text {
+    font-size: 1.3em;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: 600;
 }
 
 .arrow {
-    font-size: 2em;
+    font-size: 3em;
     animation: bounce 1s infinite;
+}
+
+.next-gift-btn {
+    padding: 15px 40px;
+    font-size: 1.2em;
+    background: linear-gradient(135deg, #d63384, #667eea);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 100%;
+    max-width: 400px;
+}
+
+.next-gift-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(214, 51, 132, 0.3);
 }
 
 /* Events Page */
@@ -338,6 +406,17 @@ video {
     from {
         opacity: 0;
         transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
     }
     to {
         opacity: 1;
