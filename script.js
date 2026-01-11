@@ -27,6 +27,13 @@ class PageManager {
     }
 
     showPage(pageName) {
+        // Prevent direct navigation to finale from page load
+        // Finale can only be accessed through the events page button
+        if (pageName === 'finale' && this.currentPage === 'password') {
+            console.log('Finale access blocked - must progress through the website first');
+            return;
+        }
+        
         // Hide all pages
         Object.values(this.pages).forEach(page => {
             page.classList.remove('active');
@@ -57,13 +64,22 @@ class PageManager {
                 const state = JSON.parse(savedState);
                 // Only restore if saved within last 24 hours
                 if (Date.now() - state.timestamp < 24 * 60 * 60 * 1000) {
-                    this.currentPage = state.currentPage;
-                    if (state.currentPage !== 'password') {
-                        // Auto-show saved page after a brief delay
-                        setTimeout(() => {
-                            this.showPage(state.currentPage);
-                        }, 100);
+                    // Don't restore finale page - always require proper navigation
+                    if (state.currentPage === 'finale') {
+                        this.showPage('events');
+                        return;
                     }
+                    
+                    // Don't restore password page - it's the default
+                    if (state.currentPage === 'password') {
+                        return;
+                    }
+                    
+                    this.currentPage = state.currentPage;
+                    // Auto-show saved page after a brief delay
+                    setTimeout(() => {
+                        this.showPage(state.currentPage);
+                    }, 100);
                 }
             }
         } catch (e) {
