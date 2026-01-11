@@ -12,6 +12,7 @@ body {
     min-height: 100vh;
     color: #333;
     overflow-x: hidden;
+    position: relative;
 }
 
 @keyframes gradientFlow {
@@ -21,6 +22,59 @@ body {
     50% {
         background-position: 100% 50%;
     }
+}
+
+/* Global Reset Progress Button */
+.global-reset-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(108, 117, 125, 0.9);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    font-size: 1.5em;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.global-reset-btn:hover {
+    background: rgba(108, 117, 125, 1);
+    transform: scale(1.1) rotate(180deg);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.global-reset-btn:active {
+    transform: scale(0.95) rotate(180deg);
+}
+
+/* Tooltip on hover */
+.global-reset-btn::after {
+    content: 'Reset Progress';
+    position: absolute;
+    right: 60px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.7em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    font-family: Arial, sans-serif;
+}
+
+.global-reset-btn:hover::after {
+    opacity: 1;
 }
 
 #app {
@@ -141,29 +195,6 @@ body {
     color: #dc3545;
     margin-top: 10px;
     font-size: 0.9em;
-}
-
-.clear-data-btn {
-    width: 100%;
-    padding: 10px;
-    margin-top: 15px;
-    font-size: 0.9em;
-    background: rgba(108, 117, 125, 0.1);
-    color: #6c757d;
-    border: 1px solid rgba(108, 117, 125, 0.3);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.clear-data-btn:hover {
-    background: rgba(108, 117, 125, 0.2);
-    border-color: rgba(108, 117, 125, 0.5);
-    color: #495057;
-}
-
-.clear-data-btn:active {
-    transform: scale(0.98);
 }
 
 /* Video Page */

@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Global Reset Progress Button (appears on all pages) -->
+    <button id="global-reset-btn" class="global-reset-btn" title="Clear saved progress and start fresh">
+        🔄
+    </button>
+
     <div id="app">
         <!-- Password Page -->
         <div id="password-page" class="page active">
@@ -17,7 +22,6 @@
                 <input type="password" id="password-input" placeholder="Enter password..." autocomplete="off">
                 <button id="unlock-btn">Unlock ❤️</button>
                 <p id="password-error" class="error-message"></p>
-                <button id="clear-data-btn" class="clear-data-btn" title="Clear saved progress and start fresh">🔄 Reset Progress</button>
             </div>
         </div>
 
