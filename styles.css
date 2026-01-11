@@ -320,6 +320,10 @@ video {
     animation: unlockAnimation 0.8s ease;
 }
 
+.event-box.locked .event-details {
+    display: none !important;
+}
+
 .event-box:hover {
     transform: translateX(5px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -366,6 +370,12 @@ video {
 
 .hidden {
     display: none;
+}
+
+.start-hunt-btn {
+    margin-top: 15px;
+    padding: 12px 30px;
+    font-size: 1.1em;
 }
 
 /* Finale Page */

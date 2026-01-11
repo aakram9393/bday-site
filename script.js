@@ -11,12 +11,15 @@ class PageManager {
         this.pages = {
             password: document.getElementById('password-page'),
             video: document.getElementById('video-page'),
-            giftHunt: document.getElementById('gift-hunt-page'),
             events: document.getElementById('events-page'),
+            giftHunt: document.getElementById('gift-hunt-page'),
             finale: document.getElementById('finale-page')
         };
         this.currentPage = 'password';
         this.backgroundMusic = document.getElementById('background-music');
+        
+        // Load saved state
+        this.loadState();
     }
 
     showPage(pageName) {
@@ -29,7 +32,43 @@ class PageManager {
         if (this.pages[pageName]) {
             this.pages[pageName].classList.add('active');
             this.currentPage = pageName;
+            
+            // Save state
+            this.saveState();
         }
+    }
+
+    saveState() {
+        const state = {
+            currentPage: this.currentPage,
+            timestamp: Date.now()
+        };
+        localStorage.setItem('birthdayWebsiteState', JSON.stringify(state));
+    }
+
+    loadState() {
+        try {
+            const savedState = localStorage.getItem('birthdayWebsiteState');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                // Only restore if saved within last 24 hours
+                if (Date.now() - state.timestamp < 24 * 60 * 60 * 1000) {
+                    this.currentPage = state.currentPage;
+                    if (state.currentPage !== 'password') {
+                        // Auto-show saved page after a brief delay
+                        setTimeout(() => {
+                            this.showPage(state.currentPage);
+                        }, 100);
+                    }
+                }
+            }
+        } catch (e) {
+            console.log('No saved state found');
+        }
+    }
+
+    clearState() {
+        localStorage.removeItem('birthdayWebsiteState');
     }
 
     playMusic() {
@@ -89,14 +128,15 @@ class PasswordHandler {
 class VideoPageHandler {
     constructor(pageManager) {
         this.pageManager = pageManager;
-        this.button = document.getElementById('continue-to-gifts');
+        this.button = document.getElementById('continue-to-events');
         
         this.init();
     }
 
     init() {
         this.button.addEventListener('click', () => {
-            this.pageManager.showPage('giftHunt');
+            this.pageManager.showPage('events');
+            eventsManager.startChecking();
         });
     }
 }
@@ -110,6 +150,9 @@ class GiftHuntHandler {
         this.giftCards = document.querySelectorAll('.single-gift-card');
         this.nextButtons = document.querySelectorAll('.next-gift-btn');
         
+        // Load saved gift progress
+        this.loadProgress();
+        
         this.init();
     }
 
@@ -122,9 +165,8 @@ class GiftHuntHandler {
                     // Show next gift
                     this.showGift(giftNumber + 1);
                 } else {
-                    // Last gift, go to events page
+                    // Last gift, go back to events page
                     this.pageManager.showPage('events');
-                    eventsManager.startChecking();
                 }
             });
         });
@@ -141,9 +183,25 @@ class GiftHuntHandler {
         if (targetGift) {
             targetGift.classList.add('active');
             this.currentGift = giftNumber;
+            this.saveProgress();
             
             // Scroll to top smoothly
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    saveProgress() {
+        localStorage.setItem('currentGift', this.currentGift);
+    }
+
+    loadProgress() {
+        const saved = localStorage.getItem('currentGift');
+        if (saved) {
+            this.currentGift = parseInt(saved);
+            // Show the saved gift
+            setTimeout(() => {
+                this.showGift(this.currentGift);
+            }, 100);
         }
     }
 }
@@ -155,6 +213,7 @@ class EventsManager {
         this.button = document.getElementById('continue-to-finale');
         this.eventBoxes = document.querySelectorAll('.event-box');
         this.checkInterval = null;
+        this.treasureHuntUnlocked = false;
         
         this.init();
     }
@@ -165,6 +224,16 @@ class EventsManager {
             this.stopChecking();
             this.initFinalePage();
         });
+
+        // Add click handler for treasure hunt button
+        setTimeout(() => {
+            const huntButton = document.querySelector('.start-hunt-btn');
+            if (huntButton) {
+                huntButton.addEventListener('click', () => {
+                    this.pageManager.showPage('giftHunt');
+                });
+            }
+        }, 500);
     }
 
     startChecking() {
@@ -223,6 +292,13 @@ class EventsManager {
         if (lockIcon) lockIcon.textContent = '🔓';
         if (lockedMessage) lockedMessage.classList.add('hidden');
         if (eventDetails) eventDetails.classList.remove('hidden');
+
+        // Check if this is the treasure hunt event (10:00 AM)
+        const eventTime = box.getAttribute('data-time');
+        if (eventTime === '10:00' && !this.treasureHuntUnlocked) {
+            this.treasureHuntUnlocked = true;
+            // Show notification or animation that treasure hunt is available
+        }
 
         // Add celebratory effect
         this.celebrateUnlock(box);
