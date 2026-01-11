@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love ❤️</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Password Page -->
+        <div id="password-page" class="page active">
+            <div class="password-container">
+                <h1 class="romantic-title">🌹 A Special Day 🌹</h1>
+                <p class="subtitle">Enter the secret word to unlock your surprise</p>
+                <input type="password" id="password-input" placeholder="Enter password..." autocomplete="off">
+                <button id="unlock-btn">Unlock ❤️</button>
+                <p id="password-error" class="error-message"></p>
+            </div>
+        </div>
+
+        <!-- Birthday Video Page -->
+        <div id="video-page" class="page">
+            <div class="video-container">
+                <h2 class="page-title">Happy Birthday My Love! 🎂</h2>
+                <video id="birthday-video" controls>
+                    <source src="videos/birthday-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <button id="continue-to-gifts" class="nav-btn">Continue to Your Treasures 🎁</button>
+            </div>
+        </div>
+
+        <!-- Gift Hunt Page -->
+        <div id="gift-hunt-page" class="page">
+            <div class="hunt-container">
+                <h2 class="page-title">Treasure Hunt Time! 🎁</h2>
+                <p class="hunt-intro">I've hidden special gifts around the house for you. Follow the clues!</p>
+                
+                <div class="gifts-grid">
+                    <div class="gift-card">
+                        <div class="gift-icon">🎁</div>
+                        <h3>Gift #1</h3>
+                        <div class="hint">
+                            <p>💡 Look beneath the couch</p>
+                            <div class="arrow">👇</div>
+                        </div>
+                    </div>
+
+                    <div class="gift-card">
+                        <div class="gift-icon">🎁</div>
+                        <h3>Gift #2</h3>
+                        <div class="hint">
+                            <p>💡 Check above the cupboard</p>
+                            <div class="arrow">☝️</div>
+                        </div>
+                    </div>
+
+                    <div class="gift-card">
+                        <div class="gift-icon">🎁</div>
+                        <h3>Gift #3</h3>
+                        <div class="hint">
+                            <p>💡 Behind the bedroom door</p>
+                            <div class="arrow">👈</div>
+                        </div>
+                    </div>
+
+                    <div class="gift-card">
+                        <div class="gift-icon">🎁</div>
+                        <h3>Gift #4</h3>
+                        <div class="hint">
+                            <p>💡 Inside the kitchen drawer</p>
+                            <div class="arrow">👉</div>
+                        </div>
+                    </div>
+
+                    <div class="gift-card">
+                        <div class="gift-icon">🎁</div>
+                        <h3>Gift #5</h3>
+                        <div class="hint">
+                            <p>💡 Under your pillow</p>
+                            <div class="arrow">🛏️</div>
+                        </div>
+                    </div>
+
+                    <div class="gift-card">
+                        <div class="gift-icon">🎁</div>
+                        <h3>Gift #6</h3>
+                        <div class="hint">
+                            <p>💡 In the bathroom cabinet</p>
+                            <div class="arrow">🚪</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="continue-to-events" class="nav-btn">Continue to Today's Events 📅</button>
+            </div>
+        </div>
+
+        <!-- Events Timeline Page -->
+        <div id="events-page" class="page">
+            <div class="events-container">
+                <h2 class="page-title">Your Special Day Events 🎉</h2>
+                <p class="events-intro">Each surprise will unlock at its special time...</p>
+                
+                <div class="timeline">
+                    <div class="event-box locked" data-time="09:00">
+                        <div class="event-time">🕘 9:00 AM</div>
+                        <div class="event-content">
+                            <div class="lock-icon">🔒</div>
+                            <p class="locked-message">Unlocks at 9:00 AM</p>
+                            <div class="event-details hidden">
+                                <h3>Breakfast in Bed 🍳</h3>
+                                <p>Your favorite breakfast is ready! I'll bring it to you with love ❤️</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-box locked" data-time="12:00">
+                        <div class="event-time">🕛 12:00 PM</div>
+                        <div class="event-content">
+                            <div class="lock-icon">🔒</div>
+                            <p class="locked-message">Unlocks at 12:00 PM</p>
+                            <div class="event-details hidden">
+                                <h3>Lunch Date 🍝</h3>
+                                <p>Let's go to your favorite restaurant! Reservation is made ✨</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-box locked" data-time="15:00">
+                        <div class="event-time">🕒 3:00 PM</div>
+                        <div class="event-content">
+                            <div class="lock-icon">🔒</div>
+                            <p class="locked-message">Unlocks at 3:00 PM</p>
+                            <div class="event-details hidden">
+                                <h3>Spa Time 💆‍♀️</h3>
+                                <p>Relax and enjoy some pampering. You deserve it, my love!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-box locked" data-time="18:00">
+                        <div class="event-time">🕕 6:00 PM</div>
+                        <div class="event-content">
+                            <div class="lock-icon">🔒</div>
+                            <p class="locked-message">Unlocks at 6:00 PM</p>
+                            <div class="event-details hidden">
+                                <h3>Sunset Walk 🌅</h3>
+                                <p>Let's take a romantic walk together and watch the sunset</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-box locked" data-time="19:30">
+                        <div class="event-time">🕢 7:30 PM</div>
+                        <div class="event-content">
+                            <div class="lock-icon">🔒</div>
+                            <p class="locked-message">Unlocks at 7:30 PM</p>
+                            <div class="event-details hidden">
+                                <h3>Candlelit Dinner 🕯️</h3>
+                                <p>A special dinner prepared with all the love in my heart 💕</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-box locked" data-time="21:00">
+                        <div class="event-time">🕘 9:00 PM</div>
+                        <div class="event-content">
+                            <div class="lock-icon">🔒</div>
+                            <p class="locked-message">Unlocks at 9:00 PM</p>
+                            <div class="event-details hidden">
+                                <h3>Movie & Cuddles 🎬</h3>
+                                <p>Your favorite movie, cozy blankets, and me by your side 🥰</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="continue-to-finale" class="nav-btn">Continue to Final Message 💌</button>
+            </div>
+        </div>
+
+        <!-- Final Thank You Page -->
+        <div id="finale-page" class="page">
+            <div class="finale-container">
+                <h2 class="page-title">From My Heart to Yours 💝</h2>
+                <video id="finale-video" controls>
+                    <source src="videos/finale-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="final-message">
+                    <p class="romantic-quote">
+                        "Thank you for being the light of my life, my best friend, and my everything.
+                        Every day with you is a gift, and I'm so grateful you're mine.
+                        Happy Birthday, my love! Here's to many more beautiful years together. ❤️"
+                    </p>
+                    <p class="signature">Forever Yours,<br>Ahmed 💕</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="background-music" loop>
+        <source src="audio/romantic-song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

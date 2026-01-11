@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*~
+
+# Optional: Uncomment these lines if you don't want to commit your media files
+# (useful if files are too large, you can add them directly via GitHub web interface)
+# videos/
+# audio/
