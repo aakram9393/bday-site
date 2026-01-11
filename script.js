@@ -1,7 +1,7 @@
 // Configuration
 const CONFIG = {
     password: 'iloveyou', // Change this to your desired password
-    birthdayDate: new Date().toDateString(), // Today's date for testing
+    birthdayDate: new Date('2026-01-25').toDateString(), // January 25, 2026
 };
 
 // Page Management
