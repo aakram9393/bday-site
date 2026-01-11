@@ -14,6 +14,9 @@ class PageManager {
             events: document.getElementById('events-page'),
             giftHunt: document.getElementById('gift-hunt-page'),
             breakfast: document.getElementById('breakfast-page'),
+            adventure: document.getElementById('adventure-page'),
+            dinner: document.getElementById('dinner-page'),
+            movie: document.getElementById('movie-page'),
             finale: document.getElementById('finale-page')
         };
         this.currentPage = 'password';
@@ -417,8 +420,65 @@ function initBreakfastHandlers() {
     }
 }
 
+// Adventure Page Handlers
+function initAdventureHandlers() {
+    const startAdventureBtn = document.getElementById('start-adventure-btn');
+    const backToEventsFromAdventure = document.getElementById('back-to-events-from-adventure');
+    
+    if (startAdventureBtn) {
+        startAdventureBtn.addEventListener('click', () => {
+            pageManager.showPage('adventure');
+        });
+    }
+    
+    if (backToEventsFromAdventure) {
+        backToEventsFromAdventure.addEventListener('click', () => {
+            pageManager.showPage('events');
+        });
+    }
+}
+
+// Dinner Page Handlers
+function initDinnerHandlers() {
+    const startDinnerBtn = document.getElementById('start-dinner-btn');
+    const backToEventsFromDinner = document.getElementById('back-to-events-from-dinner');
+    
+    if (startDinnerBtn) {
+        startDinnerBtn.addEventListener('click', () => {
+            pageManager.showPage('dinner');
+        });
+    }
+    
+    if (backToEventsFromDinner) {
+        backToEventsFromDinner.addEventListener('click', () => {
+            pageManager.showPage('events');
+        });
+    }
+}
+
+// Movie Page Handlers
+function initMovieHandlers() {
+    const startMovieBtn = document.getElementById('start-movie-btn');
+    const backToEventsFromMovie = document.getElementById('back-to-events-from-movie');
+    
+    if (startMovieBtn) {
+        startMovieBtn.addEventListener('click', () => {
+            pageManager.showPage('movie');
+        });
+    }
+    
+    if (backToEventsFromMovie) {
+        backToEventsFromMovie.addEventListener('click', () => {
+            pageManager.showPage('events');
+        });
+    }
+}
+
 // Start floating hearts
 createFloatingHearts();
 
-// Initialize breakfast handlers
+// Initialize all experience page handlers
 initBreakfastHandlers();
+initAdventureHandlers();
+initDinnerHandlers();
+initMovieHandlers();
