@@ -109,6 +109,7 @@ class PasswordHandler {
         this.pageManager = pageManager;
         this.input = document.getElementById('password-input');
         this.button = document.getElementById('unlock-btn');
+        this.clearDataBtn = document.getElementById('clear-data-btn');
         this.errorMsg = document.getElementById('password-error');
 
         this.init();
@@ -121,6 +122,28 @@ class PasswordHandler {
                 this.checkPassword();
             }
         });
+
+        // Add clear data button handler
+        if (this.clearDataBtn) {
+            this.clearDataBtn.addEventListener('click', () => this.clearAllData());
+        }
+    }
+
+    clearAllData() {
+        if (confirm('Are you sure you want to reset all progress? This will clear your saved state and start fresh.')) {
+            // Clear all localStorage data
+            localStorage.removeItem('birthdayWebsiteState');
+            localStorage.removeItem('giftHuntProgress');
+            
+            // Show confirmation message
+            this.errorMsg.style.color = '#28a745';
+            this.errorMsg.textContent = '✓ Progress reset! Refreshing page...';
+            
+            // Reload page after a brief delay
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
     }
 
     checkPassword() {
