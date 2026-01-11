@@ -8,10 +8,10 @@ Add 6 images showing hints/clues for where each gift is hidden:
 
 1. **gift1.jpg** - Photo showing the couch area (hint: beneath the couch)
 2. **gift2.jpg** - Photo showing the cupboard (hint: above the cupboard)
-3. **gift3.jpg** - Photo of the bedroom door area (hint: behind the door)
+3. **gift3.jpg** - Photo of a door area (hint: behind the door)
 4. **gift4.jpg** - Photo of the kitchen drawer (hint: inside the drawer)
-5. **gift5.jpg** - Photo of the bed/pillow area (hint: under the pillow)
-6. **gift6.jpg** - Photo of the bathroom cabinet (hint: in the cabinet)
+5. **gift5.jpg** - Photo of a shelf area (hint: on the shelf)
+6. **gift6.jpg** - Photo of the bathroom storage area (hint: in the storage area)
 
 ## Tips for Great Hint Photos
 
@@ -84,24 +84,25 @@ Add 6 images showing hints/clues for where each gift is hidden:
 - Include the top in the frame
 - Add an upward arrow ☝️
 
-**Gift 3 - Behind the bedroom door:**
-- Show the closed bedroom door
-- Or show the room with door ajar
+**Gift 3 - Behind the door:**
+- Photo of a door (entrance or closet)
+- Show the door from the front
+- Maybe show the area behind it
 
 **Gift 4 - Kitchen drawer:**
 - Photo of your kitchen
 - Focus on the drawer area
 - Maybe show it slightly open
 
-**Gift 5 - Under the pillow:**
-- Cute photo of your bedroom/bed
-- Show the bed nicely made
-- Add a hint with 🛏️
+**Gift 5 - On the shelf:**
+- Photo of a shelf in your home
+- Show the shelf area clearly
+- Add an arrow pointing to it
 
-**Gift 6 - Bathroom cabinet:**
-- Photo of the bathroom
-- Show the cabinet area
-- Keep it classy and clean
+**Gift 6 - Bathroom storage area:**
+- Photo of the bathroom storage
+- Show where the storage area is
+- Keep it neat and presentable
 
 ---
 
