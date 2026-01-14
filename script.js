@@ -276,7 +276,13 @@ class GiftHuntHandler {
         const saved = localStorage.getItem('currentGift');
         if (saved) {
             this.currentGift = parseInt(saved);
-            // Show the saved gift
+            // Only show saved gift if it's not the last one (gift 4)
+            // If on last gift, reset to gift 1 for a fresh start
+            if (this.currentGift >= this.totalGifts) {
+                this.currentGift = 1;
+                this.saveProgress();
+            }
+            // Show the gift
             setTimeout(() => {
                 this.showGift(this.currentGift);
             }, 100);
