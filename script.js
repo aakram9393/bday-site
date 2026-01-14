@@ -32,6 +32,7 @@ class PageManager {
             movie: document.getElementById('movie-music')
         };
         this.currentMusic = null;
+        this.musicEnabled = false; // Music starts disabled until user enables it
         
         // Load saved state
         this.loadState();
@@ -112,6 +113,11 @@ class PageManager {
             this.currentMusic.currentTime = 0;
         }
         
+        // Only play music if user has enabled it
+        if (!this.musicEnabled) {
+            return;
+        }
+        
         // Play music for the new page (if available)
         if (this.musicTracks[pageName]) {
             this.currentMusic = this.musicTracks[pageName];
@@ -119,6 +125,20 @@ class PageManager {
                 console.log('Music autoplay prevented:', error);
             });
         }
+    }
+
+    toggleMusic() {
+        this.musicEnabled = !this.musicEnabled;
+        
+        if (this.musicEnabled) {
+            // Enable music and play current page music
+            this.playMusicForPage(this.currentPage);
+        } else {
+            // Disable music and stop all
+            this.stopAllMusic();
+        }
+        
+        return this.musicEnabled;
     }
 
     stopAllMusic() {
@@ -586,3 +606,26 @@ function initGlobalReset() {
 
 // Initialize global reset button
 initGlobalReset();
+
+// Music Control Button Handler
+function initMusicControl() {
+    const musicControlBtn = document.getElementById('music-control-btn');
+    
+    if (musicControlBtn) {
+        musicControlBtn.addEventListener('click', () => {
+            const isPlaying = pageManager.toggleMusic();
+            
+            // Update button appearance
+            if (isPlaying) {
+                musicControlBtn.textContent = '🔊';
+                musicControlBtn.classList.add('playing');
+            } else {
+                musicControlBtn.textContent = '🔇';
+                musicControlBtn.classList.remove('playing');
+            }
+        });
+    }
+}
+
+// Initialize music control button
+initMusicControl();
