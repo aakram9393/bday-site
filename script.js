@@ -1,7 +1,7 @@
 // Configuration
 const CONFIG = {
     password: '282025', // Change this to your desired password
-    birthdayDate: new Date('2026-01-14').toDateString(), // January 14, 2026 (TESTING - change back to 25)
+    birthdayDate: new Date('2026-01-25').toDateString(), // January 25, 2026
     testMode: false, // Set to true to unlock all events immediately for testing
 };
 
