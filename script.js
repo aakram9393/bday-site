@@ -281,10 +281,19 @@ class EventsManager {
         const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         const currentDate = now.toDateString();
 
+        // Refresh event boxes selection to ensure we have all of them
+        this.eventBoxes = document.querySelectorAll('.event-box');
+        
+        console.log('🔍 Checking events...');
+        console.log('Test Mode:', CONFIG.testMode);
+        console.log('Event boxes found:', this.eventBoxes.length);
+
         // If test mode is enabled, unlock all events
         if (CONFIG.testMode) {
+            console.log('✅ Test mode is ON - unlocking all events');
             this.eventBoxes.forEach(box => {
                 if (box.classList.contains('locked')) {
+                    console.log('🔓 Unlocking event:', box.getAttribute('data-time'));
                     this.unlockEvent(box);
                 }
             });
@@ -293,6 +302,7 @@ class EventsManager {
 
         // Only unlock events if it's the birthday date
         if (currentDate !== CONFIG.birthdayDate) {
+            console.log('📅 Not birthday date yet. Events stay locked.');
             return;
         }
 
