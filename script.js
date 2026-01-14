@@ -20,7 +20,18 @@ class PageManager {
             finale: document.getElementById('finale-page')
         };
         this.currentPage = 'password';
-        this.backgroundMusic = document.getElementById('background-music');
+        
+        // Music for each page
+        this.musicTracks = {
+            password: document.getElementById('password-music'),
+            events: document.getElementById('events-music'),
+            giftHunt: document.getElementById('gift-hunt-music'),
+            breakfast: document.getElementById('breakfast-music'),
+            adventure: document.getElementById('adventure-music'),
+            dinner: document.getElementById('dinner-music'),
+            movie: document.getElementById('movie-music')
+        };
+        this.currentMusic = null;
         
         // Load saved state
         this.loadState();
@@ -43,6 +54,9 @@ class PageManager {
         if (this.pages[pageName]) {
             this.pages[pageName].classList.add('active');
             this.currentPage = pageName;
+            
+            // Change music for the new page
+            this.playMusicForPage(pageName);
             
             // Save state
             this.saveState();
@@ -91,15 +105,31 @@ class PageManager {
         localStorage.removeItem('birthdayWebsiteState');
     }
 
-    playMusic() {
-        this.backgroundMusic.play().catch(error => {
-            console.log('Music autoplay prevented:', error);
-        });
+    playMusicForPage(pageName) {
+        // Stop current music if playing
+        if (this.currentMusic) {
+            this.currentMusic.pause();
+            this.currentMusic.currentTime = 0;
+        }
+        
+        // Play music for the new page (if available)
+        if (this.musicTracks[pageName]) {
+            this.currentMusic = this.musicTracks[pageName];
+            this.currentMusic.play().catch(error => {
+                console.log('Music autoplay prevented:', error);
+            });
+        }
     }
 
-    stopMusic() {
-        this.backgroundMusic.pause();
-        this.backgroundMusic.currentTime = 0;
+    stopAllMusic() {
+        // Stop all music tracks
+        Object.values(this.musicTracks).forEach(music => {
+            if (music) {
+                music.pause();
+                music.currentTime = 0;
+            }
+        });
+        this.currentMusic = null;
     }
 }
 
@@ -128,7 +158,7 @@ class PasswordHandler {
         
         if (enteredPassword === CONFIG.password.toLowerCase()) {
             this.errorMsg.textContent = '';
-            this.pageManager.playMusic();
+            // Music will automatically play when switching to video page via showPage
             this.pageManager.showPage('video');
             this.initVideoPage();
         } else {
