@@ -46,6 +46,9 @@ class PageManager {
             return;
         }
         
+        // Pause videos when leaving their pages
+        this.pauseAllVideos();
+        
         // Hide all pages
         Object.values(this.pages).forEach(page => {
             page.classList.remove('active');
@@ -61,6 +64,20 @@ class PageManager {
             
             // Save state
             this.saveState();
+        }
+    }
+
+    pauseAllVideos() {
+        // Pause birthday video
+        const birthdayVideo = document.getElementById('birthday-video');
+        if (birthdayVideo) {
+            birthdayVideo.pause();
+        }
+        
+        // Pause finale video
+        const finaleVideo = document.getElementById('finale-video');
+        if (finaleVideo) {
+            finaleVideo.pause();
         }
     }
 
