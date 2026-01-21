@@ -6,60 +6,130 @@ const CONFIG = {
     countdownTest: true, // Set to true to show countdown immediately for testing, false to wait for Jan 25
 };
 
-// Fireworks Animation
+// Fireworks Animation - Enhanced & Modern
 class Firework {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.particles = [];
         this.animationId = null;
+        this.trails = [];
     }
 
-    createParticle(x, y) {
-        const colors = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#00f2fe', '#43e97b', '#fa709a'];
-        const particleCount = 50;
+    createParticle(x, y, isFinale = false) {
+        const colors = [
+            '#667eea', '#764ba2', '#f093fb', '#4facfe', 
+            '#00f2fe', '#43e97b', '#fa709a', '#feca57',
+            '#ff6b6b', '#ee5a6f', '#c44569', '#f8b500'
+        ];
+        const particleCount = isFinale ? 100 : 60;
+        const speed = isFinale ? 15 : 12;
         
         for (let i = 0; i < particleCount; i++) {
+            const angle = (Math.PI * 2 * i) / particleCount;
+            const velocity = Math.random() * speed + 5;
+            
             this.particles.push({
                 x: x,
                 y: y,
-                vx: (Math.random() - 0.5) * 10,
-                vy: (Math.random() - 0.5) * 10,
+                vx: Math.cos(angle) * velocity,
+                vy: Math.sin(angle) * velocity,
                 life: 1,
-                color: colors[Math.floor(Math.random() * colors.length)]
+                maxLife: 1,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                size: Math.random() * 4 + 2,
+                decay: Math.random() * 0.015 + 0.01
             });
         }
     }
 
-    launch() {
+    launch(isFinale = false) {
         const x = Math.random() * this.canvas.width;
-        const y = Math.random() * this.canvas.height * 0.5;
-        this.createParticle(x, y);
+        const y = Math.random() * this.canvas.height * 0.6;
+        this.createParticle(x, y, isFinale);
+        
+        // Add launch trail
+        this.createLaunchTrail(x, y);
+    }
+
+    createLaunchTrail(x, y) {
+        for (let i = 0; i < 20; i++) {
+            this.trails.push({
+                x: x,
+                y: this.canvas.height,
+                targetY: y,
+                progress: i / 20,
+                life: 1
+            });
+        }
     }
 
     update() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // Create dark gradient background for better firework visibility
+        const gradient = this.ctx.createRadialGradient(
+            this.canvas.width / 2, this.canvas.height / 2, 0,
+            this.canvas.width / 2, this.canvas.height / 2, this.canvas.width / 2
+        );
+        gradient.addColorStop(0, 'rgba(0, 0, 20, 0.1)');
+        gradient.addColorStop(1, 'rgba(0, 0, 40, 0.2)');
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
+        // Update and draw trails
+        for (let i = this.trails.length - 1; i >= 0; i--) {
+            const t = this.trails[i];
+            t.life -= 0.05;
+            
+            if (t.life <= 0) {
+                this.trails.splice(i, 1);
+                continue;
+            }
+            
+            const currentY = this.canvas.height - (this.canvas.height - t.targetY) * t.progress;
+            
+            this.ctx.beginPath();
+            this.ctx.arc(t.x, currentY, 2, 0, Math.PI * 2);
+            this.ctx.fillStyle = `rgba(255, 220, 100, ${t.life})`;
+            this.ctx.fill();
+        }
+        
+        // Update and draw particles
         for (let i = this.particles.length - 1; i >= 0; i--) {
             const p = this.particles[i];
             p.x += p.vx;
             p.y += p.vy;
-            p.vy += 0.1; // gravity
-            p.life -= 0.01;
+            p.vx *= 0.98; // air resistance
+            p.vy += 0.15; // gravity
+            p.life -= p.decay;
             
             if (p.life <= 0) {
                 this.particles.splice(i, 1);
                 continue;
             }
             
-            this.ctx.beginPath();
-            this.ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-            this.ctx.fillStyle = p.color;
+            // Draw particle with glow effect
+            this.ctx.save();
             this.ctx.globalAlpha = p.life;
+            
+            // Outer glow
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+            const gradient = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
+            gradient.addColorStop(0, p.color);
+            gradient.addColorStop(1, 'transparent');
+            this.ctx.fillStyle = gradient;
             this.ctx.fill();
+            
+            // Inner particle
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            this.ctx.fillStyle = p.color;
+            this.ctx.shadowBlur = 15;
+            this.ctx.shadowColor = p.color;
+            this.ctx.fill();
+            
+            this.ctx.restore();
         }
-        
-        this.ctx.globalAlpha = 1;
         
         this.animationId = requestAnimationFrame(() => this.update());
     }
@@ -73,6 +143,7 @@ class Firework {
             cancelAnimationFrame(this.animationId);
         }
         this.particles = [];
+        this.trails = [];
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
@@ -123,6 +194,15 @@ class CountdownManager {
             this.fireworks.launch();
         }, 300);
         
+        // Play countdown music
+        const countdownMusic = document.getElementById('countdown-music');
+        if (countdownMusic) {
+            countdownMusic.volume = 0.6;
+            countdownMusic.play().catch(e => {
+                console.log('Countdown music autoplay blocked. Click anywhere to enable music.');
+            });
+        }
+        
         this.updateDisplay();
         this.intervalId = setInterval(() => this.tick(), 1000);
         
@@ -159,14 +239,22 @@ class CountdownManager {
         clearInterval(this.intervalId);
         clearInterval(this.fireworkLauncher);
         
-        // Extra burst of fireworks
-        for (let i = 0; i < 5; i++) {
-            setTimeout(() => this.fireworks.launch(), i * 100);
+        // Massive finale burst of fireworks
+        for (let i = 0; i < 10; i++) {
+            setTimeout(() => this.fireworks.launch(true), i * 150);
         }
         
         // Transition to password page after celebration
         setTimeout(() => {
             this.fireworks.stop();
+            
+            // Stop countdown music
+            const countdownMusic = document.getElementById('countdown-music');
+            if (countdownMusic) {
+                countdownMusic.pause();
+                countdownMusic.currentTime = 0;
+            }
+            
             this.countdownPage.classList.remove('active');
             this.countdownPage.classList.add('hidden');
             
@@ -199,6 +287,7 @@ class PageManager {
         
         // Music for each page
         this.musicTracks = {
+            countdown: document.getElementById('countdown-music'),
             password: document.getElementById('password-music'),
             events: document.getElementById('events-music'),
             giftHunt: document.getElementById('gift-hunt-music'),

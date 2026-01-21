@@ -4,13 +4,20 @@
 
 You need to add the following MP3 files to the `audio/` folder:
 
-### 1. **password-music.mp3**
+### 1. **countdown-music.mp3** ✨ NEW
+- **Page:** Birthday countdown page (before password)
+- **Mood:** Exciting, building anticipation, celebratory
+- **Suggestion:** Epic countdown music, New Year's Eve vibes, or exciting build-up music
+- **Duration:** 10-15 seconds to match the countdown (can be longer and will loop)
+- **Note:** Plays during the 10-second countdown with fireworks
+
+### 2. **password-music.mp3**
 - **Page:** Password page
 - **Mood:** Romantic, mysterious, gentle
 - **Suggestion:** Soft romantic piano or acoustic love song
 - **Duration:** Can be short (2-3 minutes) and loop
 
-### 2. **events-music.mp3**
+### 3. **events-music.mp3**
 - **Page:** Events timeline/hub page
 - **Mood:** Uplifting, celebratory, joyful
 - **Suggestion:** Happy birthday melody or cheerful instrumental
@@ -45,6 +52,12 @@ You need to add the following MP3 files to the `audio/` folder:
 - **Mood:** Relaxing, cozy, romantic
 - **Suggestion:** Soft background music, cozy evening vibes, or the Now You See Me soundtrack
 - **Duration:** 3-4 minutes loop
+
+## Music Summary
+
+Total music files needed: **8 files** (countdown + 7 other pages)
+- ✅ Added: 2 files (dinner-music.mp3, gift-hunt-music.mp3)
+- ❌ Missing: 6 files (countdown-music.mp3, password-music.mp3, events-music.mp3, breakfast-music.mp3, adventure-music.mp3, movie-music.mp3)
 
 ## How to Add Music Files
 
