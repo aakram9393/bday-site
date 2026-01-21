@@ -168,7 +168,7 @@ body::before {
 .music-arrow-indicator {
     position: fixed;
     bottom: 155px;
-    right: 10px;
+    right: 30px;
     z-index: 9998;
     display: flex;
     flex-direction: column;
