@@ -3,7 +3,8 @@ const CONFIG = {
     password: '282025', // Change this to your desired password
     birthdayDate: new Date('2026-01-25').toDateString(), // January 25, 2026
     testMode: false, // Set to true to unlock all events immediately for testing
-    countdownTest: false, // Set to true to show countdown immediately for testing, false to wait for Jan 25
+    countdownTest: true, // Set to true to show 5-minute countdown immediately for testing
+    comingSoonTest: false, // Set to true to test "Something Special is Coming" page (simulates time before Jan 25)
 };
 
 // Fireworks Animation - Enhanced & Modern
@@ -161,6 +162,12 @@ class ComingSoonManager {
         this.intervalId = null;
         this.birthdayDate = new Date('2026-01-25T00:00:00');
         
+        // For testing: simulate countdown ending in 30 seconds
+        if (CONFIG.comingSoonTest) {
+            const now = new Date();
+            this.birthdayDate = new Date(now.getTime() + 30 * 1000); // 30 seconds from now
+        }
+        
         // Set canvas size
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
@@ -177,7 +184,7 @@ class ComingSoonManager {
     }
 
     start() {
-        if (!this.shouldShowComingSoon()) {
+        if (!CONFIG.comingSoonTest && !this.shouldShowComingSoon()) {
             this.comingSoonPage.classList.add('hidden');
             return false;
         }
@@ -207,7 +214,7 @@ class ComingSoonManager {
         const diff = this.birthdayDate - now;
         
         if (diff <= 0) {
-            // Birthday has arrived! Transition to 10-second countdown
+            // Birthday has arrived! Transition to 5-minute countdown
             this.complete();
             return;
         }
@@ -233,7 +240,7 @@ class ComingSoonManager {
         // Hide coming soon page
         this.comingSoonPage.classList.add('hidden');
         
-        // Show the 10-second countdown
+        // Show the 5-minute countdown
         window.countdownManager.start();
     }
 
@@ -859,11 +866,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const now = new Date();
     const birthdayDate = new Date('2026-01-25T00:00:00');
     
-    if (CONFIG.countdownTest) {
-        // Test mode - show 10-second countdown immediately
+    if (CONFIG.comingSoonTest) {
+        // Test mode - show "Something Special is Coming" page with countdown to Jan 25
+        comingSoonManager.start();
+    } else if (CONFIG.countdownTest) {
+        // Test mode - show 5-minute countdown immediately
         countdownManager.start();
     } else if (now >= birthdayDate) {
-        // Birthday has arrived - show 10-second countdown
+        // Birthday has arrived - show 5-minute countdown
         countdownManager.start();
     } else {
         // Before birthday - show coming soon page with timer
