@@ -259,7 +259,7 @@ class CountdownManager {
         this.canvas = document.getElementById('fireworks-canvas');
         this.fireworks = null;
         this.intervalId = null;
-        this.secondsRemaining = 10;
+        this.secondsRemaining = 300; // 5 minutes = 300 seconds
         
         // Set canvas size
         this.canvas.width = window.innerWidth;
@@ -320,8 +320,8 @@ class CountdownManager {
         this.secondsRemaining--;
         this.updateDisplay();
         
-        // Increase firework frequency as we get closer
-        if (this.secondsRemaining <= 3) {
+        // Increase firework frequency as we get closer (last 10 seconds)
+        if (this.secondsRemaining <= 10 && this.secondsRemaining > 0) {
             clearInterval(this.fireworkLauncher);
             this.fireworkLauncher = setInterval(() => {
                 this.fireworks.launch();
@@ -335,7 +335,10 @@ class CountdownManager {
 
     updateDisplay() {
         if (this.secondsRemaining > 0) {
-            this.countdownDisplay.textContent = this.secondsRemaining;
+            // Format as MM:SS
+            const minutes = Math.floor(this.secondsRemaining / 60);
+            const seconds = this.secondsRemaining % 60;
+            this.countdownDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         } else {
             this.countdownDisplay.textContent = '🎉';
             this.countdownMessage.textContent = 'Happy Birthday, My Love! 💖';
@@ -525,9 +528,13 @@ class PageManager {
         if (this.musicEnabled) {
             // Enable music and play current page music
             this.playMusicForPage(this.currentPage);
+            // Hide music arrow indicator
+            document.body.classList.add('music-enabled');
         } else {
             // Disable music and stop all
             this.stopAllMusic();
+            // Show music arrow indicator again
+            document.body.classList.remove('music-enabled');
         }
         
         return this.musicEnabled;
