@@ -3,8 +3,8 @@ const CONFIG = {
     password: '282025', // Change this to your desired password
     birthdayDate: new Date('2026-01-25').toDateString(), // January 25, 2026
     testMode: false, // Set to true to unlock all events immediately for testing
-    countdownTest: true, // Set to true to show 5-minute countdown immediately for testing
-    comingSoonTest: true, // Set to true to test "Something Special is Coming" page (simulates time before Jan 25)
+    countdownTest: false, // Set to true to show 5-minute countdown immediately for testing
+    comingSoonTest: false, // Set to true to test "Something Special is Coming" page (simulates time before Jan 25)
 };
 
 // Fireworks Animation - Enhanced & Modern
