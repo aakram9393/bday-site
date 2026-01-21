@@ -4,7 +4,7 @@ const CONFIG = {
     birthdayDate: new Date('2026-01-25').toDateString(), // January 25, 2026
     testMode: false, // Set to true to unlock all events immediately for testing
     countdownTest: true, // Set to true to show 5-minute countdown immediately for testing
-    comingSoonTest: false, // Set to true to test "Something Special is Coming" page (simulates time before Jan 25)
+    comingSoonTest: true, // Set to true to test "Something Special is Coming" page (simulates time before Jan 25)
 };
 
 // Fireworks Animation - Enhanced & Modern
@@ -162,10 +162,11 @@ class ComingSoonManager {
         this.intervalId = null;
         this.birthdayDate = new Date('2026-01-25T00:00:00');
         
-        // For testing: simulate countdown ending in 30 seconds
+        // For testing: simulate countdown that will reach 5 minutes in ~20 seconds
+        // Starting at 5 minutes 20 seconds from now, so it hits 5:00 after 20 seconds
         if (CONFIG.comingSoonTest) {
             const now = new Date();
-            this.birthdayDate = new Date(now.getTime() + 30 * 1000); // 30 seconds from now
+            this.birthdayDate = new Date(now.getTime() + (5 * 60 + 20) * 1000); // 5 min 20 sec from now
         }
         
         // Set canvas size
@@ -213,8 +214,9 @@ class ComingSoonManager {
         const now = new Date();
         const diff = this.birthdayDate - now;
         
-        if (diff <= 0) {
-            // Birthday has arrived! Transition to 5-minute countdown
+        // Check if 5 minutes or less remaining (300,000 milliseconds = 5 minutes)
+        if (diff <= 300000) {
+            // 5 minutes or less left! Transition to 5-minute countdown
             this.complete();
             return;
         }
@@ -865,6 +867,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check what to show based on test flag and current date
     const now = new Date();
     const birthdayDate = new Date('2026-01-25T00:00:00');
+    const timeUntilBirthday = birthdayDate - now;
+    const fiveMinutesInMs = 300000; // 5 minutes = 300,000 milliseconds
     
     if (CONFIG.comingSoonTest) {
         // Test mode - show "Something Special is Coming" page with countdown to Jan 25
@@ -872,11 +876,16 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (CONFIG.countdownTest) {
         // Test mode - show 5-minute countdown immediately
         countdownManager.start();
-    } else if (now >= birthdayDate) {
-        // Birthday has arrived - show 5-minute countdown
-        countdownManager.start();
+    } else if (timeUntilBirthday <= fiveMinutesInMs) {
+        // 5 minutes or less until birthday (or already passed) - show 5-minute countdown or skip to password
+        if (timeUntilBirthday > 0) {
+            countdownManager.start();
+        } else {
+            // Birthday already passed, skip straight to password page
+            pageManager.showPage('password');
+        }
     } else {
-        // Before birthday - show coming soon page with timer
+        // More than 5 minutes before birthday - show coming soon page with timer
         comingSoonManager.start();
     }
 
