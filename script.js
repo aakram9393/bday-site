@@ -221,11 +221,13 @@ class PageManager {
         // Hide all pages
         Object.values(this.pages).forEach(page => {
             page.classList.remove('active');
+            page.classList.add('hidden');
         });
 
         // Show requested page
         if (this.pages[pageName]) {
             this.pages[pageName].classList.add('active');
+            this.pages[pageName].classList.remove('hidden');
             this.currentPage = pageName;
             
             // Change music for the new page
