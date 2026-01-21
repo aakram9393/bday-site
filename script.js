@@ -203,6 +203,15 @@ class ComingSoonManager {
             }
         }, 2000);
         
+        // Play countdown music
+        const countdownMusic = document.getElementById('countdown-music');
+        if (countdownMusic) {
+            countdownMusic.volume = 0.6;
+            countdownMusic.play().catch(e => {
+                console.log('Coming Soon music autoplay blocked. Click anywhere to enable music.');
+            });
+        }
+        
         // Update countdown every second
         this.updateCountdown();
         this.intervalId = setInterval(() => this.updateCountdown(), 1000);
@@ -310,9 +319,9 @@ class CountdownManager {
             this.fireworks.launch();
         }, 300);
         
-        // Play countdown music
+        // Play countdown music (only if not already playing)
         const countdownMusic = document.getElementById('countdown-music');
-        if (countdownMusic) {
+        if (countdownMusic && countdownMusic.paused) {
             countdownMusic.volume = 0.6;
             countdownMusic.play().catch(e => {
                 console.log('Countdown music autoplay blocked. Click anywhere to enable music.');

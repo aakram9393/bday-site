@@ -1695,4 +1695,85 @@ video {
     .hero-overlay p {
         font-size: 1em;
     }
+
+    /* Coming Soon Page - Mobile Responsive */
+    .coming-soon-container {
+        padding: 30px 20px;
+        border-radius: 25px;
+        max-width: 100%;
+        margin: 20px;
+    }
+
+    .coming-soon-title {
+        font-size: 2em;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+
+    .coming-soon-subtitle {
+        font-size: 1.1em;
+        margin-bottom: 30px;
+        letter-spacing: 0.5px;
+    }
+
+    .timer-display {
+        gap: 8px;
+        margin: 30px 0;
+        flex-wrap: wrap;
+    }
+
+    .timer-unit {
+        padding: 15px 12px;
+        min-width: 70px;
+        border-radius: 15px;
+        gap: 5px;
+    }
+
+    .timer-number {
+        font-size: 2.2em;
+    }
+
+    .timer-label {
+        font-size: 0.7em;
+        letter-spacing: 1px;
+    }
+
+    .timer-separator {
+        font-size: 2.2em;
+        display: none; /* Hide separators on mobile for cleaner look */
+    }
+
+    .coming-soon-message {
+        font-size: 1.1em;
+        margin-top: 25px;
+        letter-spacing: 0.3px;
+    }
+
+    /* Countdown Page - Mobile Responsive */
+    .countdown-container {
+        padding: 30px 20px;
+        border-radius: 25px;
+        max-width: 100%;
+        margin: 20px;
+    }
+
+    .countdown-title {
+        font-size: 2em;
+        margin-bottom: 15px;
+    }
+
+    .countdown-subtitle {
+        font-size: 1.1em;
+        margin-bottom: 30px;
+    }
+
+    .countdown-display {
+        font-size: 5em;
+        margin: 30px 0;
+    }
+
+    .countdown-message {
+        font-size: 1.1em;
+        margin-top: 25px;
+    }
 }
