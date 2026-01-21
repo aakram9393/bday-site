@@ -1676,6 +1676,20 @@ video {
         width: 100%;
     }
 
+    /* Start Screen - Mobile Responsive */
+    .start-container {
+        padding: 40px 25px;
+        border-radius: 25px;
+        max-width: 100%;
+        margin: 20px;
+    }
+
+    .start-title {
+        font-size: 2em;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+
     .experience-gallery {
         grid-template-columns: 1fr;
     }

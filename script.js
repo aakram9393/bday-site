@@ -203,14 +203,8 @@ class ComingSoonManager {
             }
         }, 2000);
         
-        // Play countdown music
-        const countdownMusic = document.getElementById('countdown-music');
-        if (countdownMusic) {
-            countdownMusic.volume = 0.6;
-            countdownMusic.play().catch(e => {
-                console.log('Coming Soon music autoplay blocked. Click anywhere to enable music.');
-            });
-        }
+        // Music is now started from the start button (iOS compatibility)
+        // No autoplay attempt here
         
         // Update countdown every second
         this.updateCountdown();
@@ -872,6 +866,25 @@ document.addEventListener('DOMContentLoaded', () => {
     window.pageManager = pageManager;
     window.countdownManager = countdownManager;
     window.comingSoonManager = comingSoonManager;
+
+    // iOS Music Fix: Enable music on first user interaction (touch or click)
+    let musicEnabled = false;
+    const enableMusicOnInteraction = () => {
+        if (!musicEnabled) {
+            const countdownMusic = document.getElementById('countdown-music');
+            if (countdownMusic && countdownMusic.paused) {
+                countdownMusic.volume = 0.6;
+                countdownMusic.play().catch(e => {
+                    console.log('Music play failed:', e);
+                });
+                musicEnabled = true;
+            }
+        }
+    };
+    
+    // Listen for any user interaction to enable music (iOS requirement)
+    document.addEventListener('touchstart', enableMusicOnInteraction, { once: true });
+    document.addEventListener('click', enableMusicOnInteraction, { once: true });
 
     // Check what to show based on test flag and current date
     const now = new Date();
