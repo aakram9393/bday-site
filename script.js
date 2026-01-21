@@ -3,12 +3,181 @@ const CONFIG = {
     password: '282025', // Change this to your desired password
     birthdayDate: new Date('2026-01-25').toDateString(), // January 25, 2026
     testMode: false, // Set to true to unlock all events immediately for testing
+    countdownTest: true, // Set to true to show countdown immediately for testing, false to wait for Jan 25
 };
+
+// Fireworks Animation
+class Firework {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.particles = [];
+        this.animationId = null;
+    }
+
+    createParticle(x, y) {
+        const colors = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#00f2fe', '#43e97b', '#fa709a'];
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            this.particles.push({
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 10,
+                vy: (Math.random() - 0.5) * 10,
+                life: 1,
+                color: colors[Math.floor(Math.random() * colors.length)]
+            });
+        }
+    }
+
+    launch() {
+        const x = Math.random() * this.canvas.width;
+        const y = Math.random() * this.canvas.height * 0.5;
+        this.createParticle(x, y);
+    }
+
+    update() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.1; // gravity
+            p.life -= 0.01;
+            
+            if (p.life <= 0) {
+                this.particles.splice(i, 1);
+                continue;
+            }
+            
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+            this.ctx.fillStyle = p.color;
+            this.ctx.globalAlpha = p.life;
+            this.ctx.fill();
+        }
+        
+        this.ctx.globalAlpha = 1;
+        
+        this.animationId = requestAnimationFrame(() => this.update());
+    }
+
+    start() {
+        this.update();
+    }
+
+    stop() {
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+        }
+        this.particles = [];
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+// Countdown Manager
+class CountdownManager {
+    constructor() {
+        this.countdownPage = document.getElementById('countdown-page');
+        this.countdownDisplay = document.querySelector('.countdown-display');
+        this.countdownMessage = document.querySelector('.countdown-message');
+        this.canvas = document.getElementById('fireworks-canvas');
+        this.fireworks = null;
+        this.intervalId = null;
+        this.secondsRemaining = 10;
+        
+        // Set canvas size
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        });
+    }
+
+    shouldShowCountdown() {
+        // Show countdown if test flag is true OR if it's January 25, 2026
+        if (CONFIG.countdownTest) {
+            return true;
+        }
+        
+        const today = new Date().toDateString();
+        return today === CONFIG.birthdayDate;
+    }
+
+    start() {
+        if (!this.shouldShowCountdown()) {
+            this.countdownPage.classList.add('hidden');
+            return false;
+        }
+
+        this.countdownPage.classList.remove('hidden');
+        this.fireworks = new Firework(this.canvas);
+        this.fireworks.start();
+        
+        // Launch fireworks at intervals
+        this.fireworkLauncher = setInterval(() => {
+            this.fireworks.launch();
+        }, 300);
+        
+        this.updateDisplay();
+        this.intervalId = setInterval(() => this.tick(), 1000);
+        
+        return true;
+    }
+
+    tick() {
+        this.secondsRemaining--;
+        this.updateDisplay();
+        
+        // Increase firework frequency as we get closer
+        if (this.secondsRemaining <= 3) {
+            clearInterval(this.fireworkLauncher);
+            this.fireworkLauncher = setInterval(() => {
+                this.fireworks.launch();
+            }, 100);
+        }
+        
+        if (this.secondsRemaining <= 0) {
+            this.complete();
+        }
+    }
+
+    updateDisplay() {
+        if (this.secondsRemaining > 0) {
+            this.countdownDisplay.textContent = this.secondsRemaining;
+        } else {
+            this.countdownDisplay.textContent = '🎉';
+            this.countdownMessage.textContent = 'Happy Birthday, My Love! 💖';
+        }
+    }
+
+    complete() {
+        clearInterval(this.intervalId);
+        clearInterval(this.fireworkLauncher);
+        
+        // Extra burst of fireworks
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => this.fireworks.launch(), i * 100);
+        }
+        
+        // Transition to password page after celebration
+        setTimeout(() => {
+            this.fireworks.stop();
+            this.countdownPage.classList.add('hidden');
+            window.pageManager.showPage('password');
+        }, 2000);
+    }
+}
 
 // Page Management
 class PageManager {
     constructor() {
         this.pages = {
+            countdown: document.getElementById('countdown-page'),
             password: document.getElementById('password-page'),
             video: document.getElementById('video-page'),
             events: document.getElementById('events-page'),
@@ -456,15 +625,25 @@ class TestMode {
 }
 
 // Initialize Application
-let pageManager, passwordHandler, videoHandler, giftHuntHandler, eventsManager;
+let pageManager, passwordHandler, videoHandler, giftHuntHandler, eventsManager, countdownManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize managers
     pageManager = new PageManager();
+    countdownManager = new CountdownManager();
     passwordHandler = new PasswordHandler(pageManager);
     videoHandler = new VideoPageHandler(pageManager);
     giftHuntHandler = new GiftHuntHandler(pageManager);
     eventsManager = new EventsManager(pageManager);
+
+    // Start with countdown if appropriate, otherwise go to password page
+    const showingCountdown = countdownManager.start();
+    if (!showingCountdown) {
+        pageManager.showPage('password');
+    }
+
+    // Make pageManager globally accessible for countdown
+    window.pageManager = pageManager;
 
     // Uncomment the line below to enable test mode (unlocks all events immediately)
     // TestMode.enableTestMode();
