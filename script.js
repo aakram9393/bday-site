@@ -282,12 +282,17 @@ class CountdownManager {
     }
 
     start() {
-        if (!this.shouldShowCountdown()) {
-            this.countdownPage.classList.add('hidden');
-            return false;
-        }
-
+        // Always show countdown when this is called (logic handled in initialization)
         this.countdownPage.classList.remove('hidden');
+        this.countdownPage.classList.add('active');
+        
+        // Hide coming soon page if it's showing
+        const comingSoonPage = document.getElementById('coming-soon-page');
+        if (comingSoonPage) {
+            comingSoonPage.classList.add('hidden');
+            comingSoonPage.classList.remove('active');
+        }
+        
         this.fireworks = new Firework(this.canvas);
         this.fireworks.start();
         
@@ -843,18 +848,18 @@ document.addEventListener('DOMContentLoaded', () => {
     window.countdownManager = countdownManager;
     window.comingSoonManager = comingSoonManager;
 
-    // Check if birthday has arrived
+    // Check what to show based on test flag and current date
     const now = new Date();
     const birthdayDate = new Date('2026-01-25T00:00:00');
     
-    if (now >= birthdayDate) {
-        // Birthday has arrived - show 10-second countdown or password page
-        const showingCountdown = countdownManager.start();
-        if (!showingCountdown) {
-            pageManager.showPage('password');
-        }
+    if (CONFIG.countdownTest) {
+        // Test mode - show 10-second countdown immediately
+        countdownManager.start();
+    } else if (now >= birthdayDate) {
+        // Birthday has arrived - show 10-second countdown
+        countdownManager.start();
     } else {
-        // Before birthday - show coming soon page
+        // Before birthday - show coming soon page with timer
         comingSoonManager.start();
     }
 
