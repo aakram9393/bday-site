@@ -167,8 +167,15 @@ class CountdownManager {
         // Transition to password page after celebration
         setTimeout(() => {
             this.fireworks.stop();
+            this.countdownPage.classList.remove('active');
             this.countdownPage.classList.add('hidden');
-            window.pageManager.showPage('password');
+            
+            // Now show password page
+            const passwordPage = document.getElementById('password-page');
+            passwordPage.classList.remove('hidden');
+            passwordPage.classList.add('active');
+            
+            console.log('Transitioning to password page');
         }, 2000);
     }
 }
