@@ -148,6 +148,108 @@ class Firework {
     }
 }
 
+// Coming Soon Manager - Real-time countdown to birthday
+class ComingSoonManager {
+    constructor() {
+        this.comingSoonPage = document.getElementById('coming-soon-page');
+        this.daysEl = document.getElementById('days');
+        this.hoursEl = document.getElementById('hours');
+        this.minutesEl = document.getElementById('minutes');
+        this.secondsEl = document.getElementById('seconds');
+        this.canvas = document.getElementById('coming-soon-canvas');
+        this.fireworks = null;
+        this.intervalId = null;
+        this.birthdayDate = new Date('2026-01-25T00:00:00');
+        
+        // Set canvas size
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        });
+    }
+
+    shouldShowComingSoon() {
+        const now = new Date();
+        return now < this.birthdayDate;
+    }
+
+    start() {
+        if (!this.shouldShowComingSoon()) {
+            this.comingSoonPage.classList.add('hidden');
+            return false;
+        }
+
+        this.comingSoonPage.classList.remove('hidden');
+        
+        // Start fireworks
+        this.fireworks = new Firework(this.canvas);
+        this.fireworks.start();
+        
+        // Launch occasional fireworks
+        this.fireworkLauncher = setInterval(() => {
+            if (Math.random() > 0.7) { // 30% chance every interval
+                this.fireworks.launch();
+            }
+        }, 2000);
+        
+        // Update countdown every second
+        this.updateCountdown();
+        this.intervalId = setInterval(() => this.updateCountdown(), 1000);
+        
+        return true;
+    }
+
+    updateCountdown() {
+        const now = new Date();
+        const diff = this.birthdayDate - now;
+        
+        if (diff <= 0) {
+            // Birthday has arrived! Transition to 10-second countdown
+            this.complete();
+            return;
+        }
+        
+        // Calculate time units
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        // Update display with leading zeros
+        this.daysEl.textContent = String(days).padStart(2, '0');
+        this.hoursEl.textContent = String(hours).padStart(2, '0');
+        this.minutesEl.textContent = String(minutes).padStart(2, '0');
+        this.secondsEl.textContent = String(seconds).padStart(2, '0');
+    }
+
+    complete() {
+        clearInterval(this.intervalId);
+        clearInterval(this.fireworkLauncher);
+        this.fireworks.stop();
+        
+        // Hide coming soon page
+        this.comingSoonPage.classList.add('hidden');
+        
+        // Show the 10-second countdown
+        window.countdownManager.start();
+    }
+
+    stop() {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
+        if (this.fireworkLauncher) {
+            clearInterval(this.fireworkLauncher);
+        }
+        if (this.fireworks) {
+            this.fireworks.stop();
+        }
+    }
+}
+
 // Countdown Manager
 class CountdownManager {
     constructor() {
@@ -272,6 +374,7 @@ class CountdownManager {
 class PageManager {
     constructor() {
         this.pages = {
+            comingSoon: document.getElementById('coming-soon-page'),
             countdown: document.getElementById('countdown-page'),
             password: document.getElementById('password-page'),
             video: document.getElementById('video-page'),
@@ -723,25 +826,37 @@ class TestMode {
 }
 
 // Initialize Application
-let pageManager, passwordHandler, videoHandler, giftHuntHandler, eventsManager, countdownManager;
+let pageManager, passwordHandler, videoHandler, giftHuntHandler, eventsManager, countdownManager, comingSoonManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize managers
     pageManager = new PageManager();
+    comingSoonManager = new ComingSoonManager();
     countdownManager = new CountdownManager();
     passwordHandler = new PasswordHandler(pageManager);
     videoHandler = new VideoPageHandler(pageManager);
     giftHuntHandler = new GiftHuntHandler(pageManager);
     eventsManager = new EventsManager(pageManager);
 
-    // Start with countdown if appropriate, otherwise go to password page
-    const showingCountdown = countdownManager.start();
-    if (!showingCountdown) {
-        pageManager.showPage('password');
-    }
-
-    // Make pageManager globally accessible for countdown
+    // Make managers globally accessible
     window.pageManager = pageManager;
+    window.countdownManager = countdownManager;
+    window.comingSoonManager = comingSoonManager;
+
+    // Check if birthday has arrived
+    const now = new Date();
+    const birthdayDate = new Date('2026-01-25T00:00:00');
+    
+    if (now >= birthdayDate) {
+        // Birthday has arrived - show 10-second countdown or password page
+        const showingCountdown = countdownManager.start();
+        if (!showingCountdown) {
+            pageManager.showPage('password');
+        }
+    } else {
+        // Before birthday - show coming soon page
+        comingSoonManager.start();
+    }
 
     // Uncomment the line below to enable test mode (unlocks all events immediately)
     // TestMode.enableTestMode();

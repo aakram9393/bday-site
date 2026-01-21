@@ -18,8 +18,40 @@
     </button>
 
     <div id="app">
-        <!-- Birthday Countdown Page -->
-        <div id="countdown-page" class="page active">
+        <!-- Coming Soon / Stay Tuned Page -->
+        <div id="coming-soon-page" class="page active">
+            <div class="coming-soon-container">
+                <h1 class="coming-soon-title">✨ Something Special is Coming ✨</h1>
+                <p class="coming-soon-subtitle">A magical birthday celebration awaits...</p>
+                <div id="timer-display" class="timer-display">
+                    <div class="timer-unit">
+                        <span id="days" class="timer-number">00</span>
+                        <span class="timer-label">Days</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-unit">
+                        <span id="hours" class="timer-number">00</span>
+                        <span class="timer-label">Hours</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-unit">
+                        <span id="minutes" class="timer-number">00</span>
+                        <span class="timer-label">Minutes</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-unit">
+                        <span id="seconds" class="timer-number">00</span>
+                        <span class="timer-label">Seconds</span>
+                    </div>
+                </div>
+                <p class="coming-soon-message">🎂 Stay tuned for an unforgettable experience! 💖</p>
+            </div>
+            <!-- Fireworks container -->
+            <canvas id="coming-soon-canvas"></canvas>
+        </div>
+
+        <!-- Birthday Countdown Page (10 second final countdown) -->
+        <div id="countdown-page" class="page hidden">
             <div class="countdown-container">
                 <h1 class="countdown-title">🎉 Get Ready! 🎉</h1>
                 <p class="countdown-subtitle">Your special day begins in...</p>
